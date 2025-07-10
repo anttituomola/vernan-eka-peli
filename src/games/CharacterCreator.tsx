@@ -1304,27 +1304,31 @@ const CharacterCreator: React.FC = () => {
   };
 
   const renderCharacterPreview = () => {
+    // Responsive sizing
+    const isMobile = window.innerWidth < 640;
+    const stageWidth = isMobile ? 280 : 400;
+    const stageHeight = isMobile ? 400 : 500; // Increased height on mobile to accommodate full robot
+    const centerX = stageWidth / 2;
+    const centerY = stageHeight * 0.58; // Moved robot down slightly to prevent head cutoff
+
     return (
-      <div className='bg-gradient-to-b from-blue-300 to-purple-400 rounded-kid-lg border-4 border-yellow-300 p-2 sm:p-4'>
+      <div className='bg-gradient-to-b from-blue-300 to-purple-400 rounded-kid-lg border-4 border-yellow-300 p-1 sm:p-2 lg:p-4'>
         <div className='w-full flex items-center justify-center'>
           <div
             className='relative max-w-full'
             style={{
-              width: 'min(400px, 85vw, 100%)',
-              height: 'min(500px, 106.25vw, 500px)', // Maintains 4:5 aspect ratio
-              aspectRatio: '4/5',
+              width: `${stageWidth}px`,
+              height: `${stageHeight}px`,
             }}
           >
             <Stage
-              width={400}
-              height={500}
-              scaleX={1}
-              scaleY={1}
+              width={stageWidth}
+              height={stageHeight}
               className='w-full h-full border-0'
               style={{ display: 'block' }}
             >
               <Layer>
-                <Group x={200} y={270}>
+                <Group x={centerX} y={centerY}>
                   {/* Full Robot with Generated Images */}
                   <Group>{renderFullRobot()}</Group>
                 </Group>
@@ -1352,51 +1356,53 @@ const CharacterCreator: React.FC = () => {
       <BackButton />
 
       <div className='flex flex-col items-center min-h-full'>
-        {/* Title */}
-        <h1 className='text-2xl sm:text-3xl lg:text-4xl font-kid font-bold text-white mb-4 sm:mb-6 drop-shadow-lg text-center'>
+        {/* Title - Hidden on mobile to save space */}
+        <h1 className='hidden sm:block text-2xl lg:text-4xl font-kid font-bold text-white mb-4 lg:mb-6 drop-shadow-lg text-center'>
           🤖 Rakenna robotti! 🤖
         </h1>
 
-        <div className='flex flex-col lg:flex-row gap-4 lg:gap-8 w-full max-w-7xl items-start'>
-          {/* Robot Preview */}
-          <div className='w-full lg:w-auto lg:flex-shrink-0 order-1 lg:order-1'>
-            <h2 className='text-lg sm:text-xl lg:text-2xl font-kid font-bold text-white mb-2 sm:mb-4 text-center'>
+        <div className='flex flex-col lg:flex-row gap-2 sm:gap-4 lg:gap-8 w-full max-w-7xl items-start'>
+          {/* Robot Preview - Made sticky */}
+          <div className='w-full lg:w-auto lg:flex-shrink-0 order-1 lg:order-1 sticky top-0 lg:static bg-gradient-to-br from-kidBlue via-kidGreen to-kidYellow lg:bg-none z-10 lg:z-auto pb-1 lg:pb-0'>
+            {/* Robot preview title - Hidden on mobile */}
+            <h2 className='hidden sm:block text-lg lg:text-2xl font-kid font-bold text-white mb-2 lg:mb-4 text-center'>
               Sinun robottisi:
             </h2>
             {renderCharacterPreview()}
 
-            {/* Valmis Button */}
-            <div className='flex justify-center mt-4'>
+            {/* Valmis Button - Ultra compact on mobile */}
+            <div className='flex justify-center mt-1 sm:mt-4'>
               <GameButton
                 onClick={() =>
                   dispatch({ type: 'NAVIGATE_TO', screen: 'menu' })
                 }
                 icon='✅'
-                label='Valmis'
+                label='' // Removed text completely for cleaner look
                 variant='accent'
-                size='lg'
+                size='sm'
+                className='w-14 h-14 sm:w-20 sm:h-20 text-xl sm:text-2xl p-1 sm:p-2' // Larger icon since no text
               />
             </div>
           </div>
 
           {/* Part Selection */}
-          <div className='flex-1 bg-white/90 rounded-kid-lg p-3 sm:p-4 lg:p-6 max-h-[70vh] lg:max-h-[600px] overflow-y-auto order-2 lg:order-2'>
-            <h2 className='text-lg sm:text-xl lg:text-2xl font-kid font-bold text-gray-800 mb-3 sm:mb-4 text-center'>
-              🎨 Robotin värit ja osat 🎨
+          <div className='flex-1 bg-white/90 rounded-kid-lg p-2 sm:p-3 lg:p-6 max-h-[55vh] sm:max-h-[70vh] lg:max-h-[600px] overflow-y-auto order-2 lg:order-2'>
+            <h2 className='text-base sm:text-lg lg:text-2xl font-kid font-bold text-gray-800 mb-2 sm:mb-3 lg:mb-4 text-center'>
+              🎨 Robotin värit ja osat ��
             </h2>
 
-            <div className='grid grid-cols-1 gap-3 sm:gap-4'>
+            <div className='grid grid-cols-1 gap-2 sm:gap-3 lg:gap-4'>
               {Object.entries(partOptions).map(([partKey, partData]) => (
                 <div
                   key={partKey}
-                  className='bg-gradient-to-r from-blue-50 to-purple-50 rounded-kid p-3 sm:p-4 border-2 border-blue-200'
+                  className='bg-gradient-to-r from-blue-50 to-purple-50 rounded-kid p-2 sm:p-3 lg:p-4 border-2 border-blue-200'
                 >
-                  <h3 className='text-base sm:text-lg font-kid font-bold text-gray-700 mb-2 sm:mb-3 text-center'>
+                  <h3 className='text-sm sm:text-base lg:text-lg font-kid font-bold text-gray-700 mb-1 sm:mb-2 lg:mb-3 text-center'>
                     {partData.name}
                   </h3>
 
                   {/* Shape Selection */}
-                  <div className='mb-2 sm:mb-3'>
+                  <div className='mb-1 sm:mb-2 lg:mb-3'>
                     <h4 className='text-xs sm:text-sm font-kid font-semibold text-gray-600 mb-1 sm:mb-2 text-center'>
                       Valitse muoto:
                     </h4>
@@ -1448,7 +1454,7 @@ const CharacterCreator: React.FC = () => {
                               )
                             }
                             className={`
-                              w-16 h-16 sm:w-20 sm:h-20 rounded-kid border-2 sm:border-4
+                              w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 rounded-kid border-2 sm:border-4
                               flex items-center justify-center overflow-hidden
                               transition-all duration-200 transform hover:scale-105
                               ${
@@ -1463,10 +1469,10 @@ const CharacterCreator: React.FC = () => {
                               <img
                                 src={partImage.src}
                                 alt={`${partKey} ${option.id}`}
-                                className='w-12 h-12 sm:w-16 sm:h-16 object-contain'
+                                className='w-8 h-8 sm:w-12 sm:h-12 lg:w-16 lg:h-16 object-contain'
                               />
                             ) : (
-                              <div className='w-12 h-12 sm:w-16 sm:h-16 bg-gray-200 rounded flex items-center justify-center text-xs'>
+                              <div className='w-8 h-8 sm:w-12 sm:h-12 lg:w-16 lg:h-16 bg-gray-200 rounded flex items-center justify-center text-xs'>
                                 ?
                               </div>
                             )}
@@ -1495,7 +1501,7 @@ const CharacterCreator: React.FC = () => {
                               )
                             }
                             className={`
-                              w-6 h-6 sm:w-7 sm:h-7 rounded-full border-2 transition-all duration-200 transform hover:scale-110
+                              w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7 rounded-full border-2 transition-all duration-200 transform hover:scale-110
                               ${
                                 partColors[
                                   partKey as keyof typeof partColors

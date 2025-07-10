@@ -11,14 +11,15 @@ const BackButton: React.FC = () => {
   return (
     <button
       onClick={handleBack}
-      className="
-        fixed top-4 left-4 z-50
+      className='
+        fixed top-2 left-2 sm:top-4 sm:left-4 z-50
         kid-button kid-button-warning
-        w-16 h-16 text-3xl
+        w-10 h-10 sm:w-12 sm:h-12 lg:w-16 lg:h-16 
+        text-lg sm:text-xl lg:text-3xl
         flex items-center justify-center
         hover:scale-110 active:scale-95
-      "
-      type="button"
+      '
+      type='button'
     >
       ⬅️
     </button>
