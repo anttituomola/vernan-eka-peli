@@ -578,15 +578,15 @@ const MazeGame: React.FC = () => {
           {/* Controls */}
           <div className='flex flex-col gap-1 sm:gap-4 w-full max-w-xs order-2 lg:order-2 px-2'>
             {/* Arrow Controls */}
-            <div className='bg-white/90 rounded-kid-lg p-2 sm:p-6'>
-              <h3 className='text-sm sm:text-xl font-kid font-bold text-gray-800 mb-1 sm:mb-4 text-center'>
+            <div className='bg-white/90 rounded-kid-lg p-1 sm:p-3'>
+              <h3 className='text-sm sm:text-xl font-kid font-bold text-gray-800 mb-1 sm:mb-3 text-center'>
                 Liiku:
               </h3>
-              <div className='grid grid-cols-3 gap-2 sm:gap-3 w-40 sm:w-52 mx-auto'>
+              <div className='grid grid-cols-3 gap-1 w-40 sm:w-52 mx-auto'>
                 <div></div>
                 <button
                   onClick={() => movePlayer('up')}
-                  className='kid-button kid-button-primary w-12 h-12 sm:w-16 sm:h-16 text-lg sm:text-xl flex items-center justify-center'
+                  className='kid-button kid-button-primary w-16 h-16 sm:w-20 sm:h-20 text-xl sm:text-2xl flex items-center justify-center'
                   type='button'
                 >
                   ⬆️
@@ -594,7 +594,7 @@ const MazeGame: React.FC = () => {
                 <div></div>
                 <button
                   onClick={() => movePlayer('left')}
-                  className='kid-button kid-button-primary w-12 h-12 sm:w-16 sm:h-16 text-lg sm:text-xl flex items-center justify-center'
+                  className='kid-button kid-button-primary w-16 h-16 sm:w-20 sm:h-20 text-xl sm:text-2xl flex items-center justify-center'
                   type='button'
                 >
                   ⬅️
@@ -602,7 +602,7 @@ const MazeGame: React.FC = () => {
                 <div></div>
                 <button
                   onClick={() => movePlayer('right')}
-                  className='kid-button kid-button-primary w-12 h-12 sm:w-16 sm:h-16 text-lg sm:text-xl flex items-center justify-center'
+                  className='kid-button kid-button-primary w-16 h-16 sm:w-20 sm:h-20 text-xl sm:text-2xl flex items-center justify-center'
                   type='button'
                 >
                   ➡️
@@ -610,7 +610,7 @@ const MazeGame: React.FC = () => {
                 <div></div>
                 <button
                   onClick={() => movePlayer('down')}
-                  className='kid-button kid-button-primary w-12 h-12 sm:w-16 sm:h-16 text-lg sm:text-xl flex items-center justify-center'
+                  className='kid-button kid-button-primary w-16 h-16 sm:w-20 sm:h-20 text-xl sm:text-2xl flex items-center justify-center'
                   type='button'
                 >
                   ⬇️
