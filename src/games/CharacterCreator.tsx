@@ -1361,34 +1361,35 @@ const CharacterCreator: React.FC = () => {
           🤖 Rakenna robotti! 🤖
         </h1>
 
-        <div className='flex flex-col lg:flex-row gap-2 sm:gap-4 lg:gap-8 w-full max-w-7xl items-start'>
+        <div className='flex flex-col lg:flex-row gap-2 sm:gap-4 lg:gap-8 w-full max-w-7xl items-center lg:items-start justify-center'>
           {/* Robot Preview - Made sticky */}
           <div className='w-full lg:w-auto lg:flex-shrink-0 order-1 lg:order-1 sticky top-0 lg:static bg-gradient-to-br from-kidBlue via-kidGreen to-kidYellow lg:bg-none z-10 lg:z-auto pb-1 lg:pb-0'>
             {/* Robot preview title - Hidden on mobile */}
             <h2 className='hidden sm:block text-lg lg:text-2xl font-kid font-bold text-white mb-2 lg:mb-4 text-center'>
               Sinun robottisi:
             </h2>
-            {renderCharacterPreview()}
 
-            {/* Valmis Button - Ultra compact on mobile */}
-            <div className='flex justify-center mt-1 sm:mt-4'>
-              <GameButton
+            {/* Robot container with floating button */}
+            <div className='relative flex justify-center'>
+              {renderCharacterPreview()}
+
+              {/* Floating Valmis Button - Bottom right corner */}
+              <button
                 onClick={() =>
                   dispatch({ type: 'NAVIGATE_TO', screen: 'menu' })
                 }
-                icon='✅'
-                label='' // Removed text completely for cleaner look
-                variant='accent'
-                size='sm'
-                className='w-14 h-14 sm:w-20 sm:h-20 text-xl sm:text-2xl p-1 sm:p-2' // Larger icon since no text
-              />
+                className='absolute bottom-2 right-2 sm:bottom-4 sm:right-4 w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-b from-kidPink to-pink-400 border-2 sm:border-4 border-pink-500 rounded-full text-white shadow-lg hover:shadow-xl transform hover:scale-110 active:scale-95 transition-all duration-200 flex items-center justify-center text-lg sm:text-xl z-20'
+                type='button'
+              >
+                ✅
+              </button>
             </div>
           </div>
 
-          {/* Part Selection */}
-          <div className='flex-1 bg-white/90 rounded-kid-lg p-2 sm:p-3 lg:p-6 max-h-[55vh] sm:max-h-[70vh] lg:max-h-[600px] overflow-y-auto order-2 lg:order-2'>
+          {/* Part Selection - Centered */}
+          <div className='w-full max-w-md lg:max-w-none lg:flex-1 bg-white/90 rounded-kid-lg p-2 sm:p-3 lg:p-6 max-h-[55vh] sm:max-h-[70vh] lg:max-h-[600px] overflow-y-auto order-2 lg:order-2'>
             <h2 className='text-base sm:text-lg lg:text-2xl font-kid font-bold text-gray-800 mb-2 sm:mb-3 lg:mb-4 text-center'>
-              🎨 Robotin värit ja osat ��
+              🎨 Robotin värit ja osat 🎨
             </h2>
 
             <div className='grid grid-cols-1 gap-2 sm:gap-3 lg:gap-4'>

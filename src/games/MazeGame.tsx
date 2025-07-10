@@ -582,39 +582,39 @@ const MazeGame: React.FC = () => {
               <h3 className='text-sm sm:text-xl font-kid font-bold text-gray-800 mb-1 sm:mb-4 text-center'>
                 Liiku:
               </h3>
-              <div className='grid grid-cols-3 gap-1 sm:gap-2 w-32 sm:w-44 mx-auto'>
+              <div className='grid grid-cols-3 gap-2 sm:gap-3 w-40 sm:w-52 mx-auto'>
                 <div></div>
-                <GameButton
+                <button
                   onClick={() => movePlayer('up')}
-                  icon='⬆️'
-                  label=''
-                  size='sm'
-                  className='aspect-square w-8 h-8 sm:w-auto sm:h-auto text-sm'
-                />
+                  className='kid-button kid-button-primary w-12 h-12 sm:w-16 sm:h-16 text-lg sm:text-xl flex items-center justify-center'
+                  type='button'
+                >
+                  ⬆️
+                </button>
                 <div></div>
-                <GameButton
+                <button
                   onClick={() => movePlayer('left')}
-                  icon='⬅️'
-                  label=''
-                  size='sm'
-                  className='aspect-square w-8 h-8 sm:w-auto sm:h-auto text-sm'
-                />
+                  className='kid-button kid-button-primary w-12 h-12 sm:w-16 sm:h-16 text-lg sm:text-xl flex items-center justify-center'
+                  type='button'
+                >
+                  ⬅️
+                </button>
                 <div></div>
-                <GameButton
+                <button
                   onClick={() => movePlayer('right')}
-                  icon='➡️'
-                  label=''
-                  size='sm'
-                  className='aspect-square w-8 h-8 sm:w-auto sm:h-auto text-sm'
-                />
+                  className='kid-button kid-button-primary w-12 h-12 sm:w-16 sm:h-16 text-lg sm:text-xl flex items-center justify-center'
+                  type='button'
+                >
+                  ➡️
+                </button>
                 <div></div>
-                <GameButton
+                <button
                   onClick={() => movePlayer('down')}
-                  icon='⬇️'
-                  label=''
-                  size='sm'
-                  className='aspect-square w-8 h-8 sm:w-auto sm:h-auto text-sm'
-                />
+                  className='kid-button kid-button-primary w-12 h-12 sm:w-16 sm:h-16 text-lg sm:text-xl flex items-center justify-center'
+                  type='button'
+                >
+                  ⬇️
+                </button>
                 <div></div>
               </div>
             </div>
@@ -628,7 +628,7 @@ const MazeGame: React.FC = () => {
                   label='Uudestaan'
                   variant='warning'
                   size='sm'
-                  className='text-xs sm:text-sm w-full max-w-32 sm:max-w-none'
+                  className='text-xs sm:text-sm'
                 />
               </div>
             </div>
