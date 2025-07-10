@@ -1,16 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Stage,
-  Layer,
-  Rect,
-  Circle,
-  Group,
-  Star,
-  RegularPolygon,
-  Image,
-} from 'react-konva';
+import { Stage, Layer, Group, Image } from 'react-konva';
 import { useGame } from '../App';
-import { CharacterParts } from '../types';
 import BackButton from '../components/BackButton';
 import GameButton from '../components/GameButton';
 

@@ -5,7 +5,7 @@ import BackButton from '../components/BackButton';
 import GameButton from '../components/GameButton';
 
 const DetectiveGame: React.FC = () => {
-  const { state, dispatch } = useGame();
+  const { dispatch } = useGame();
   const [currentLevel, setCurrentLevel] = useState(1);
   const [foundObject, setFoundObject] = useState(false);
   const [clickedPositions, setClickedPositions] = useState<

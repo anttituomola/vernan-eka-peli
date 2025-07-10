@@ -137,11 +137,6 @@ const ColoringBook: React.FC = () => {
     return sceneProgress[areaId] || '#F0F0F0';
   };
 
-  const getNumberColor = (number: number) => {
-    const color = colors.find((c) => c.id === number.toString());
-    return color ? color.color : '#999';
-  };
-
   return (
     <div className='w-full h-full p-4'>
       <BackButton />
