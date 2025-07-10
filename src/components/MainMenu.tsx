@@ -9,75 +9,79 @@ const MainMenu: React.FC = () => {
     {
       id: 'character-creator',
       icon: '👤',
-      label: 'Make Character',
-      variant: 'primary' as const
+      label: 'Luo hahmo',
+      variant: 'primary' as const,
+      disabled: false,
     },
     {
       id: 'maze',
       icon: '🌀',
-      label: 'Maze Game',
-      variant: 'secondary' as const
+      label: 'Labyrintti-peli',
+      variant: 'secondary' as const,
+      disabled: false,
     },
     {
       id: 'coloring',
       icon: '🎨',
-      label: 'Color Pictures',
-      variant: 'accent' as const
+      label: 'Väritä kuvia',
+      variant: 'accent' as const,
+      disabled: true,
+      comingSoon: true,
     },
     {
       id: 'detective',
       icon: '🔍',
-      label: 'Find Things',
-      variant: 'warning' as const
-    }
+      label: 'Etsi esineitä',
+      variant: 'warning' as const,
+      disabled: true,
+      comingSoon: true,
+    },
   ];
 
-  const handleGameSelect = (gameId: string) => {
-    dispatch({ 
-      type: 'NAVIGATE_TO', 
-      screen: gameId as any 
-    });
+  const handleGameSelect = (gameId: string, disabled: boolean) => {
+    if (!disabled) {
+      dispatch({
+        type: 'NAVIGATE_TO',
+        screen: gameId as any,
+      });
+    }
   };
 
   return (
-    <div className="flex flex-col items-center justify-center w-full h-full p-8">
+    <div className='flex flex-col items-center justify-center w-full h-full p-8'>
       {/* Title */}
-      <div className="text-center mb-12">
-        <h1 className="text-6xl font-kid font-bold text-white mb-4 drop-shadow-lg">
-          🎮 Fun Games! 🎮
+      <div className='text-center mb-12'>
+        <h1 className='text-6xl font-kid font-bold text-white mb-4 drop-shadow-lg'>
+          Vernan eka peli
         </h1>
-        <p className="text-2xl font-kid text-white drop-shadow-md">
-          Pick a game to play!
+        <p className='text-2xl font-kid text-white drop-shadow-md'>
+          Valitse peli!
         </p>
       </div>
 
       {/* Game Selection Grid */}
-      <div className="grid grid-cols-2 gap-8 max-w-2xl">
+      <div className='grid grid-cols-2 gap-8 max-w-2xl'>
         {gameButtons.map((game) => (
-          <GameButton
-            key={game.id}
-            onClick={() => handleGameSelect(game.id)}
-            icon={game.icon}
-            label={game.label}
-            variant={game.variant}
-            size="xl"
-            className="animate-pulse-slow hover:animate-bounce"
-          />
+          <div key={game.id} className='relative'>
+            <GameButton
+              onClick={() => handleGameSelect(game.id, game.disabled)}
+              icon={game.icon}
+              label={game.label}
+              variant={game.variant}
+              size='xl'
+              className={`${
+                game.disabled
+                  ? 'opacity-50 cursor-not-allowed'
+                  : 'animate-pulse-slow hover:animate-bounce'
+              }`}
+            />
+            {game.comingSoon && (
+              <div className='absolute top-2 right-2 bg-orange-500 text-white text-xs font-bold px-2 py-1 rounded-full transform rotate-12 shadow-lg'>
+                Tulossa pian
+              </div>
+            )}
+          </div>
         ))}
-      </div>
-
-      {/* Decorative Elements */}
-      <div className="absolute top-10 left-10 text-6xl animate-bounce-slow">
-        ⭐
-      </div>
-      <div className="absolute top-20 right-20 text-5xl animate-wiggle">
-        🌈
-      </div>
-      <div className="absolute bottom-20 left-20 text-5xl animate-bounce-slow">
-        🎪
-      </div>
-      <div className="absolute bottom-10 right-10 text-6xl animate-pulse-slow">
-        🎁
       </div>
     </div>
   );
