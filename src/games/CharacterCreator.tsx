@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Stage, Layer, Group, Image } from 'react-konva';
 import { useGame } from '../App';
 import BackButton from '../components/BackButton';
-import GameButton from '../components/GameButton';
 
 // Utility to create robot part thumbnails for selection buttons
 const createRobotPartThumbnail = (
