@@ -4,6 +4,7 @@ import { useGame } from '../App';
 import { MazeLevel, MazeCell } from '../types';
 import BackButton from '../components/BackButton';
 import GameButton from '../components/GameButton';
+import CharacterIcon from '../components/CharacterIcon';
 
 const MazeGame: React.FC = () => {
   const { state, dispatch } = useGame();
@@ -12,74 +13,101 @@ const MazeGame: React.FC = () => {
   const [gameWon, setGameWon] = useState(false);
 
   const cellSize = 40;
-  const mazeWidth = 15;
-  const mazeHeight = 11;
 
-  // Maze levels - now with 8 challenging levels!
-  const mazeLevels: MazeLevel[] = [
-    {
-      id: 1,
-      grid: generateSimpleMaze(1),
-      playerStart: { x: 1, y: 1 },
-      goal: { x: mazeWidth - 2, y: mazeHeight - 2 },
-    },
-    {
-      id: 2,
-      grid: generateSimpleMaze(2),
-      playerStart: { x: 1, y: 1 },
-      goal: { x: mazeWidth - 2, y: mazeHeight - 2 },
-    },
-    {
-      id: 3,
-      grid: generateSimpleMaze(3),
-      playerStart: { x: 1, y: 1 },
-      goal: { x: mazeWidth - 2, y: mazeHeight - 2 },
-    },
-    {
-      id: 4,
-      grid: generateSimpleMaze(4),
-      playerStart: { x: 1, y: 1 },
-      goal: { x: mazeWidth - 2, y: mazeHeight - 2 },
-    },
-    {
-      id: 5,
-      grid: generateSimpleMaze(5),
-      playerStart: { x: 1, y: 1 },
-      goal: { x: mazeWidth - 2, y: mazeHeight - 2 },
-    },
-    {
-      id: 6,
-      grid: generateSimpleMaze(6),
-      playerStart: { x: 1, y: 1 },
-      goal: { x: mazeWidth - 2, y: mazeHeight - 2 },
-    },
-    {
-      id: 7,
-      grid: generateSimpleMaze(7),
-      playerStart: { x: 1, y: 1 },
-      goal: { x: mazeWidth - 2, y: mazeHeight - 2 },
-    },
-    {
-      id: 8,
-      grid: generateSimpleMaze(8),
-      playerStart: { x: 1, y: 1 },
-      goal: { x: mazeWidth - 2, y: mazeHeight - 2 },
-    },
-  ];
+  // Get maze dimensions based on level - bigger mazes for higher levels
+  const getMazeDimensions = (level: number) => {
+    if (level <= 8) {
+      return { width: 15, height: 11 }; // Original size for levels 1-8
+    } else if (level <= 12) {
+      return { width: 19, height: 15 }; // Medium size for levels 9-12
+    } else {
+      return { width: 23, height: 17 }; // Large size for levels 13-16
+    }
+  };
 
-  function generateSimpleMaze(level: number): MazeCell[][] {
-    console.log(`Generating reliable solvable maze for level ${level}`);
+  // Maze levels - now with 16 challenging levels!
+  const mazeLevels: MazeLevel[] = [];
+
+  // Generate all 16 levels
+  for (let level = 1; level <= 16; level++) {
+    const dimensions = getMazeDimensions(level);
+
+    // For advanced levels, randomize start and goal positions (but keep them solvable)
+    let playerStart = { x: 1, y: 1 };
+    let goal = { x: dimensions.width - 2, y: dimensions.height - 2 };
+
+    if (level > 8) {
+      // Use level as seed for consistent random positions
+      const seed = level * 9876;
+      const startRandom = (seed % 4) + 1;
+
+      switch (startRandom) {
+        case 1: // Top-left (default)
+          playerStart = { x: 1, y: 1 };
+          goal = { x: dimensions.width - 2, y: dimensions.height - 2 };
+          break;
+        case 2: // Top-right
+          playerStart = { x: dimensions.width - 2, y: 1 };
+          goal = { x: 1, y: dimensions.height - 2 };
+          break;
+        case 3: // Bottom-left
+          playerStart = { x: 1, y: dimensions.height - 2 };
+          goal = { x: dimensions.width - 2, y: 1 };
+          break;
+        case 4: // Bottom-right
+          playerStart = { x: dimensions.width - 2, y: dimensions.height - 2 };
+          goal = { x: 1, y: 1 };
+          break;
+      }
+    }
+
+    mazeLevels.push({
+      id: level,
+      grid: generateAdvancedMaze(
+        level,
+        dimensions.width,
+        dimensions.height,
+        playerStart,
+        goal
+      ),
+      playerStart,
+      goal,
+    });
+  }
+
+  function generateAdvancedMaze(
+    level: number,
+    mazeWidth: number,
+    mazeHeight: number,
+    playerStart: { x: number; y: number },
+    goal: { x: number; y: number }
+  ): MazeCell[][] {
+    console.log(
+      `Generating reliable solvable maze for level ${level}, size: ${mazeWidth}x${mazeHeight}`
+    );
 
     // Use a seed based on level for consistent maze generation
     const seed = level * 12345;
     Math.random = seedRandom(seed);
 
     // Use our own reliable maze generation that guarantees solvability
-    return generateReliableMaze(level);
+    return generateReliableMaze(
+      level,
+      mazeWidth,
+      mazeHeight,
+      playerStart,
+      goal
+    );
   }
 
   // Generate a maze using recursive backtracking that guarantees solvability
-  function generateReliableMaze(level: number): MazeCell[][] {
+  function generateReliableMaze(
+    level: number,
+    mazeWidth: number,
+    mazeHeight: number,
+    playerStart: { x: number; y: number },
+    goal: { x: number; y: number }
+  ): MazeCell[][] {
     const grid: MazeCell[][] = [];
 
     // Initialize all cells as walls
@@ -156,27 +184,36 @@ const MazeGame: React.FC = () => {
     }
 
     // Apply level-specific complexity
-    addLevelComplexity(grid, level);
+    addLevelComplexity(grid, level, mazeWidth, mazeHeight);
 
     // Set start and goal
-    grid[1][1] = { x: 1, y: 1, type: 'start' };
-    grid[mazeHeight - 2][mazeWidth - 2] = {
-      x: mazeWidth - 2,
-      y: mazeHeight - 2,
+    grid[playerStart.y][playerStart.x] = {
+      x: playerStart.x,
+      y: playerStart.y,
+      type: 'start',
+    };
+    grid[goal.y][goal.x] = {
+      x: goal.x,
+      y: goal.y,
       type: 'goal',
     };
 
     // Final verification - if not solvable, add emergency path
-    if (!isPathSolvable(grid)) {
+    if (!isPathSolvable(grid, mazeWidth, mazeHeight, playerStart, goal)) {
       console.warn(`Adding emergency path for level ${level}`);
-      addEmergencyPath(grid);
+      addEmergencyPath(grid, mazeWidth, mazeHeight);
     }
 
     return grid;
   }
 
   // Add level-specific complexity to the base maze
-  function addLevelComplexity(grid: MazeCell[][], level: number) {
+  function addLevelComplexity(
+    grid: MazeCell[][],
+    level: number,
+    mazeWidth: number,
+    mazeHeight: number
+  ) {
     if (level === 1) {
       // Level 1: Remove some walls to make it easier
       for (let i = 0; i < 3; i++) {
@@ -188,7 +225,10 @@ const MazeGame: React.FC = () => {
       }
     } else if (level >= 5) {
       // Higher levels: Add some extra connections for multiple paths
-      const extraConnections = (level - 4) * 2;
+      const baseConnections = level <= 8 ? (level - 4) * 2 : (level - 4) * 3;
+      const extraConnections =
+        level > 12 ? baseConnections + 5 : baseConnections;
+
       for (let i = 0; i < extraConnections; i++) {
         const x = 2 + Math.floor(Math.random() * (mazeWidth - 4));
         const y = 2 + Math.floor(Math.random() * (mazeHeight - 4));
@@ -201,7 +241,11 @@ const MazeGame: React.FC = () => {
   }
 
   // Add an emergency guaranteed path if maze becomes unsolvable
-  function addEmergencyPath(grid: MazeCell[][]) {
+  function addEmergencyPath(
+    grid: MazeCell[][],
+    mazeWidth: number,
+    mazeHeight: number
+  ) {
     // Create an L-shaped path along the edges as backup
     for (let x = 1; x < mazeWidth - 1; x++) {
       grid[mazeHeight - 2][x] = { x, y: mazeHeight - 2, type: 'path' };
@@ -212,9 +256,15 @@ const MazeGame: React.FC = () => {
   }
 
   // Check if the maze is solvable using a simple pathfinding
-  function isPathSolvable(grid: MazeCell[][]): boolean {
-    const start = [1, 1];
-    const goal = [mazeHeight - 2, mazeWidth - 2];
+  function isPathSolvable(
+    grid: MazeCell[][],
+    mazeWidth: number,
+    mazeHeight: number,
+    playerStart: { x: number; y: number },
+    goal: { x: number; y: number }
+  ): boolean {
+    const start = [playerStart.y, playerStart.x];
+    const goalPos = [goal.y, goal.x];
 
     // Simple BFS pathfinding
     const queue = [start];
@@ -231,7 +281,7 @@ const MazeGame: React.FC = () => {
     while (queue.length > 0) {
       const [y, x] = queue.shift()!;
 
-      if (y === goal[0] && x === goal[1]) {
+      if (y === goalPos[0] && x === goalPos[1]) {
         return true; // Found path to goal
       }
 
@@ -266,116 +316,23 @@ const MazeGame: React.FC = () => {
     };
   }
 
-  // Render simplified character for maze
+  // Render character for maze using CharacterIcon component
   const renderMazeCharacter = (
     x: number,
     y: number,
     currentCellSize: number = cellSize
   ) => {
-    const character = state.character;
-    const size = currentCellSize * 0.6; // Make character smaller than cell
+    const characterSize = currentCellSize * 0.6; // Make character smaller than cell
     const centerX = x * currentCellSize + currentCellSize / 2;
     const centerY = y * currentCellSize + currentCellSize / 2;
 
-    // Character part colors - simplified version
-    const headColor = '#3B82F6'; // blue
-    const bodyColor = '#EF4444'; // red
-    const eyeColor =
-      character.eyes === 'blue_led'
-        ? '#1E40AF'
-        : character.eyes === 'red_laser'
-        ? '#DC2626'
-        : '#059669';
-
     return (
-      <Group x={centerX} y={centerY}>
-        {/* Body */}
-        <Rect
-          x={-size / 4}
-          y={-size / 4}
-          width={size / 2}
-          height={size / 2}
-          fill={bodyColor}
-          stroke='#1E293B'
-          strokeWidth={1}
-          cornerRadius={character.torso === 'rounded' ? size / 8 : 0}
-        />
-
-        {/* Head */}
-        {character.head === 'round' ? (
-          <Circle
-            x={0}
-            y={-size / 2}
-            radius={size / 4}
-            fill={headColor}
-            stroke='#1E293B'
-            strokeWidth={1}
-          />
-        ) : (
-          <Rect
-            x={-size / 4}
-            y={-size / 2 - size / 4}
-            width={size / 2}
-            height={size / 2}
-            fill={headColor}
-            stroke='#1E293B'
-            strokeWidth={1}
-            cornerRadius={character.head === 'hexagon' ? size / 16 : 0}
-          />
-        )}
-
-        {/* Eyes */}
-        <Circle
-          x={-size / 8}
-          y={-size / 2}
-          radius={size / 16}
-          fill={eyeColor}
-        />
-        <Circle x={size / 8} y={-size / 2} radius={size / 16} fill={eyeColor} />
-
-        {/* Legs/Wheels indication */}
-        {character.legs === 'wheels' ? (
-          <>
-            <Circle
-              x={-size / 6}
-              y={size / 3}
-              radius={size / 8}
-              fill='#111827'
-              stroke='#374151'
-              strokeWidth={1}
-            />
-            <Circle
-              x={size / 6}
-              y={size / 3}
-              radius={size / 8}
-              fill='#111827'
-              stroke='#374151'
-              strokeWidth={1}
-            />
-          </>
-        ) : (
-          <>
-            <Rect
-              x={-size / 6}
-              y={size / 6}
-              width={size / 12}
-              height={size / 3}
-              fill='#10B981'
-              stroke='#1E293B'
-              strokeWidth={1}
-            />
-            <Rect
-              x={size / 12}
-              y={size / 6}
-              width={size / 12}
-              height={size / 3}
-              fill='#10B981'
-              stroke='#1E293B'
-              strokeWidth={1}
-            />
-          </>
-        )}
-      </Group>
+      <CharacterIcon
+        character={state.character}
+        size={characterSize}
+        x={centerX}
+        y={centerY}
+      />
     );
   };
 
@@ -385,6 +342,9 @@ const MazeGame: React.FC = () => {
 
       setPlayerPosition((prevPos) => {
         const newPos = { ...prevPos };
+        const currentDimensions = getMazeDimensions(currentLevel);
+        const mazeWidth = currentDimensions.width;
+        const mazeHeight = currentDimensions.height;
 
         switch (direction) {
           case 'up':
@@ -427,12 +387,6 @@ const MazeGame: React.FC = () => {
     } else {
       setCurrentLevel(1); // Loop back to first level
     }
-  };
-
-  const resetLevel = () => {
-    const maze = mazeLevels[currentLevel - 1];
-    setPlayerPosition(maze.playerStart);
-    setGameWon(false);
   };
 
   // Keyboard controls
@@ -479,6 +433,10 @@ const MazeGame: React.FC = () => {
 
   const renderMaze = () => {
     const maze = mazeLevels[currentLevel - 1];
+    const currentDimensions = getMazeDimensions(currentLevel);
+    const mazeWidth = currentDimensions.width;
+    const mazeHeight = currentDimensions.height;
+
     // Responsive cell size based on screen
     const responsiveCellSize = Math.min(
       cellSize,
@@ -539,7 +497,12 @@ const MazeGame: React.FC = () => {
         </h1>
 
         <div className='text-sm sm:text-xl lg:text-2xl font-kid font-bold text-white mb-1 sm:mb-4'>
-          Taso {currentLevel}
+          Taso {currentLevel}/16
+          {currentLevel <= 8 && <span className='text-green-300'>⭐</span>}
+          {currentLevel > 8 && currentLevel <= 12 && (
+            <span className='text-yellow-300'>⭐⭐</span>
+          )}
+          {currentLevel > 12 && <span className='text-red-300'>⭐⭐⭐</span>}
         </div>
 
         <div className='flex flex-col lg:flex-row gap-2 lg:gap-8 items-center lg:items-start w-full max-w-7xl justify-center'>
@@ -554,15 +517,19 @@ const MazeGame: React.FC = () => {
                 className='absolute top-4 left-0 right-0 mx-auto w-fit z-10 bg-green-400 rounded-kid-lg p-3 sm:p-6 text-center shadow-lg max-w-xs animate-bounce'
                 style={{ animationIterationCount: '2' }}
               >
-                <div className='text-lg sm:text-3xl mb-2'>🎉</div>
+                <div className='text-lg sm:text-3xl mb-2'>
+                  {currentLevel === 16 ? '🏆' : '🎉'}
+                </div>
                 <div className='text-sm sm:text-xl font-kid font-bold text-white mb-3 sm:mb-4'>
-                  Hyvin tehty! Löysit kullan! ⭐
+                  {currentLevel === 16
+                    ? 'Onnittelut! Läpäisit kaikki tasot! 🏆🌟'
+                    : 'Hyvin tehty! Löysit kullan! ⭐'}
                 </div>
                 <div className='flex flex-col items-center gap-2'>
                   <GameButton
                     onClick={nextLevel}
-                    icon='➡️'
-                    label='Seuraava'
+                    icon={currentLevel === 16 ? '🔄' : '➡️'}
+                    label={currentLevel === 16 ? 'Aloita alusta' : 'Seuraava'}
                     variant='accent'
                     size='sm'
                     className='text-xs sm:text-sm bg-blue-500 hover:bg-blue-600 text-white border-blue-600 px-4 py-2'
@@ -576,10 +543,10 @@ const MazeGame: React.FC = () => {
           </div>
 
           {/* Controls */}
-          <div className='flex flex-col gap-1 sm:gap-4 w-full max-w-xs order-2 lg:order-2 px-2'>
+          <div className='flex justify-center order-2 lg:order-2'>
             {/* Arrow Controls */}
-            <div className='bg-white/90 rounded-kid-lg p-1 sm:p-3'>
-              <h3 className='text-sm sm:text-xl font-kid font-bold text-gray-800 mb-1 sm:mb-3 text-center'>
+            <div className='bg-white/90 rounded-kid-lg p-2 sm:p-4'>
+              <h3 className='text-sm sm:text-lg font-kid font-bold text-gray-800 mb-2 sm:mb-3 text-center'>
                 Liiku:
               </h3>
               <div className='grid grid-cols-3 gap-1 w-40 sm:w-52 mx-auto'>
@@ -616,34 +583,6 @@ const MazeGame: React.FC = () => {
                   ⬇️
                 </button>
                 <div></div>
-              </div>
-            </div>
-
-            {/* Action Buttons */}
-            <div className='bg-white/90 rounded-kid-lg p-2 sm:p-6'>
-              <div className='flex flex-col gap-1 sm:gap-4 items-center'>
-                <GameButton
-                  onClick={resetLevel}
-                  icon='🔄'
-                  label='Uudestaan'
-                  variant='warning'
-                  size='sm'
-                  className='text-xs sm:text-sm'
-                />
-              </div>
-            </div>
-
-            {/* Instructions */}
-            <div className='bg-white/90 rounded-kid-lg p-2 sm:p-4'>
-              <h3 className='text-xs sm:text-lg font-kid font-bold text-gray-800 mb-1 sm:mb-2 text-center'>
-                Kuinka pelata:
-              </h3>
-              <div className='text-xs sm:text-sm text-gray-700 space-y-0.5 sm:space-y-2'>
-                <div>🤖 Sinä olet oma robottisi</div>
-                <div>⭐ Pääse keltaiseen tähteen</div>
-                <div>🚫 Älä osu ruskeisiin seiniin</div>
-                <div>⌨️ Käytä nuolinäppäimiä tai painikkeita</div>
-                <div>✨ Paina Enter siirtyäksesi seuraavaan tasoon</div>
               </div>
             </div>
           </div>

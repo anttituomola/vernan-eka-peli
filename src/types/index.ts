@@ -1,5 +1,10 @@
 // Game State Types
-export type GameScreen = 'menu' | 'character-creator' | 'maze' | 'coloring' | 'detective';
+export type GameScreen =
+  | 'menu'
+  | 'character-creator'
+  | 'maze'
+  | 'coloring'
+  | 'detective';
 
 export interface CharacterParts {
   head: string;
@@ -11,9 +16,22 @@ export interface CharacterParts {
   feet: string;
 }
 
+export interface CharacterColors {
+  head: string;
+  torso: string;
+  arms: string;
+  legs: string;
+  feet: string;
+}
+
+export interface Character {
+  parts: CharacterParts;
+  colors: CharacterColors;
+}
+
 export interface GameState {
   currentScreen: GameScreen;
-  character: CharacterParts;
+  character: Character;
   mazeProgress: {
     currentLevel: number;
     completedLevels: number[];
@@ -29,9 +47,14 @@ export interface GameState {
   };
 }
 
-export type GameAction = 
+export type GameAction =
   | { type: 'NAVIGATE_TO'; screen: GameScreen }
-  | { type: 'UPDATE_CHARACTER'; part: keyof CharacterParts; value: string }
+  | { type: 'UPDATE_CHARACTER_PART'; part: keyof CharacterParts; value: string }
+  | {
+      type: 'UPDATE_CHARACTER_COLOR';
+      part: keyof CharacterColors;
+      color: string;
+    }
   | { type: 'COMPLETE_MAZE_LEVEL'; level: number }
   | { type: 'UPDATE_COLORING'; sceneId: string; areaId: string; color: string }
   | { type: 'COMPLETE_DETECTIVE_LEVEL'; level: number }

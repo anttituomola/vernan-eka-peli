@@ -968,13 +968,13 @@ const CharacterCreator: React.FC = () => {
 
   const [imagesGenerated, setImagesGenerated] = useState(false);
 
-  // State for part colors
+  // State for part colors - initialized from global state
   const [partColors, setPartColors] = useState({
-    head: '#3B82F6', // blue-500
-    torso: '#EF4444', // red-500
-    arms: '#10B981', // emerald-500
-    legs: '#F59E0B', // amber-500
-    feet: '#8B5CF6', // violet-500
+    head: state.character.colors.head,
+    torso: state.character.colors.torso,
+    arms: state.character.colors.arms,
+    legs: state.character.colors.legs,
+    feet: state.character.colors.feet,
   });
 
   // Generate robot part images on component mount
@@ -1147,35 +1147,193 @@ const CharacterCreator: React.FC = () => {
     generateImages();
   }, [partColors]);
 
-  // Part options for all robot parts
+  // Update images when colors change
+  useEffect(() => {
+    if (imagesGenerated) {
+      const generateImages = () => {
+        const heads: { [key: string]: HTMLImageElement } = {};
+        const torsos: { [key: string]: HTMLImageElement } = {};
+        const arms: { [key: string]: HTMLImageElement } = {};
+        const legs: { [key: string]: HTMLImageElement } = {};
+        const feet: { [key: string]: HTMLImageElement } = {};
+
+        const headThumbails: { [key: string]: HTMLImageElement } = {};
+        const torsoThumbails: { [key: string]: HTMLImageElement } = {};
+        const armThumbails: { [key: string]: HTMLImageElement } = {};
+        const legThumbails: { [key: string]: HTMLImageElement } = {};
+        const feetThumbails: { [key: string]: HTMLImageElement } = {};
+
+        // Regenerate head images with new colors
+        for (const headType of ['round', 'square', 'hexagon']) {
+          const canvas = createRobotPartImage(
+            'head',
+            headType,
+            partColors.head
+          );
+          const img = document.createElement('img');
+          img.src = canvas.toDataURL();
+          heads[headType] = img;
+
+          const thumbCanvas = createRobotPartThumbnail(
+            'head',
+            headType,
+            partColors.head
+          );
+          const thumbImg = document.createElement('img');
+          thumbImg.src = thumbCanvas.toDataURL();
+          headThumbails[headType] = thumbImg;
+        }
+
+        // Regenerate torso images with new colors
+        for (const torsoType of ['rectangular', 'rounded', 'armored']) {
+          const canvas = createRobotPartImage(
+            'torso',
+            torsoType,
+            partColors.torso
+          );
+          const img = document.createElement('img');
+          img.src = canvas.toDataURL();
+          torsos[torsoType] = img;
+
+          const thumbCanvas = createRobotPartThumbnail(
+            'torso',
+            torsoType,
+            partColors.torso
+          );
+          const thumbImg = document.createElement('img');
+          thumbImg.src = thumbCanvas.toDataURL();
+          torsoThumbails[torsoType] = thumbImg;
+        }
+
+        // Regenerate arm images with new colors
+        for (const armType of ['basic', 'mechanical', 'claws']) {
+          const canvas = createRobotPartImage('arms', armType, partColors.arms);
+          const img = document.createElement('img');
+          img.src = canvas.toDataURL();
+          arms[armType] = img;
+
+          const thumbCanvas = createRobotPartThumbnail(
+            'arms',
+            armType,
+            partColors.arms
+          );
+          const thumbImg = document.createElement('img');
+          thumbImg.src = thumbCanvas.toDataURL();
+          armThumbails[armType] = thumbImg;
+        }
+
+        // Regenerate leg images with new colors
+        for (const legType of ['basic', 'wheels', 'treads']) {
+          const canvas = createRobotPartImage('legs', legType, partColors.legs);
+          const img = document.createElement('img');
+          img.src = canvas.toDataURL();
+          legs[legType] = img;
+
+          const thumbCanvas = createRobotPartThumbnail(
+            'legs',
+            legType,
+            partColors.legs
+          );
+          const thumbImg = document.createElement('img');
+          thumbImg.src = thumbCanvas.toDataURL();
+          legThumbails[legType] = thumbImg;
+        }
+
+        // Regenerate feet images with new colors
+        for (const feetType of ['boots', 'magnetic', 'spikes']) {
+          const canvas = createRobotPartImage(
+            'feet',
+            feetType,
+            partColors.feet
+          );
+          const img = document.createElement('img');
+          img.src = canvas.toDataURL();
+          feet[feetType] = img;
+
+          const thumbCanvas = createRobotPartThumbnail(
+            'feet',
+            feetType,
+            partColors.feet
+          );
+          const thumbImg = document.createElement('img');
+          thumbImg.src = thumbCanvas.toDataURL();
+          feetThumbails[feetType] = thumbImg;
+        }
+
+        setHeadImages(heads);
+        setTorsoImages(torsos);
+        setArmImages(arms);
+        setLegImages(legs);
+        setFeetImages(feet);
+
+        setHeadThumbnails(headThumbails);
+        setTorsoThumbnails(torsoThumbails);
+        setArmThumbnails(armThumbails);
+        setLegThumbnails(legThumbails);
+        setFeetThumbnails(feetThumbails);
+      };
+
+      generateImages();
+    }
+  }, [partColors, imagesGenerated]);
+
+  // Part options configuration
   const partOptions = {
     head: {
       name: 'Pää',
-      options: [{ id: 'round' }, { id: 'square' }, { id: 'hexagon' }],
+      options: [
+        { id: 'round', name: 'Pyöreä' },
+        { id: 'square', name: 'Neliö' },
+        { id: 'hexagon', name: 'Kuusikulmio' },
+      ],
     },
     eyes: {
       name: 'Silmät',
-      options: [{ id: 'blue_led' }, { id: 'red_laser' }, { id: 'green_scan' }],
+      options: [
+        { id: 'blue_led', name: 'Sininen LED' },
+        { id: 'red_laser', name: 'Punainen laser' },
+        { id: 'green_scan', name: 'Vihreä skanneri' },
+      ],
     },
     ears: {
       name: 'Antennit',
-      options: [{ id: 'straight' }, { id: 'coiled' }, { id: 'satellite' }],
+      options: [
+        { id: 'straight', name: 'Suora' },
+        { id: 'coiled', name: 'Kierretty' },
+        { id: 'satellite', name: 'Satelliitti' },
+      ],
     },
     torso: {
       name: 'Vartalo',
-      options: [{ id: 'rectangular' }, { id: 'rounded' }, { id: 'armored' }],
+      options: [
+        { id: 'rectangular', name: 'Suorakulmainen' },
+        { id: 'rounded', name: 'Pyöristetty' },
+        { id: 'armored', name: 'Panssaroitu' },
+      ],
     },
     arms: {
-      name: 'Kädet',
-      options: [{ id: 'basic' }, { id: 'mechanical' }, { id: 'claws' }],
+      name: 'Käsivarret',
+      options: [
+        { id: 'basic', name: 'Perus' },
+        { id: 'mechanical', name: 'Mekaaninen' },
+        { id: 'claws', name: 'Kynnet' },
+      ],
     },
     legs: {
       name: 'Jalat',
-      options: [{ id: 'basic' }, { id: 'wheels' }, { id: 'treads' }],
+      options: [
+        { id: 'basic', name: 'Perus' },
+        { id: 'wheels', name: 'Pyörät' },
+        { id: 'treads', name: 'Telat' },
+      ],
     },
     feet: {
-      name: 'Jalkine',
-      options: [{ id: 'boots' }, { id: 'magnetic' }, { id: 'spikes' }],
+      name: 'Jalat',
+      options: [
+        { id: 'boots', name: 'Saappaat' },
+        { id: 'magnetic', name: 'Magneettiset' },
+        { id: 'spikes', name: 'Piikit' },
+      ],
     },
   };
 
@@ -1189,17 +1347,11 @@ const CharacterCreator: React.FC = () => {
     | 'feet';
 
   const handlePartChange = (part: AvailableParts, value: string) => {
-    dispatch({ type: 'UPDATE_CHARACTER', part, value });
-  };
-
-  const handleColorChange = (
-    partType: keyof typeof partColors,
-    color: string
-  ) => {
-    setPartColors((prev) => ({
-      ...prev,
-      [partType]: color,
-    }));
+    dispatch({
+      type: 'UPDATE_CHARACTER_PART',
+      part,
+      value,
+    });
   };
 
   const colorOptions = [
@@ -1217,8 +1369,21 @@ const CharacterCreator: React.FC = () => {
     '#F43F5E', // rose-500
   ];
 
+  const handleColorChange = (
+    partType: keyof typeof partColors,
+    color: string
+  ) => {
+    // Update local state for immediate visual feedback
+    setPartColors((prev) => ({
+      ...prev,
+      [partType]: color,
+    }));
+    // Save to global state
+    dispatch({ type: 'UPDATE_CHARACTER_COLOR', part: partType, color });
+  };
+
   const getSelectedOption = (part: AvailableParts) => {
-    const selectedId = state.character[part];
+    const selectedId = state.character.parts[part];
     return (
       partOptions[part].options.find((option) => option.id === selectedId) ||
       partOptions[part].options[0]
@@ -1368,20 +1533,9 @@ const CharacterCreator: React.FC = () => {
               Sinun robottisi:
             </h2>
 
-            {/* Robot container with floating button */}
-            <div className='relative flex justify-center'>
+            {/* Robot container */}
+            <div className='flex justify-center'>
               {renderCharacterPreview()}
-
-              {/* Floating Valmis Button - Bottom right corner */}
-              <button
-                onClick={() =>
-                  dispatch({ type: 'NAVIGATE_TO', screen: 'menu' })
-                }
-                className='absolute bottom-2 right-2 sm:bottom-4 sm:right-4 w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-b from-kidPink to-pink-400 border-2 sm:border-4 border-pink-500 rounded-full text-white shadow-lg hover:shadow-xl transform hover:scale-110 active:scale-95 transition-all duration-200 flex items-center justify-center text-lg sm:text-xl z-20'
-                type='button'
-              >
-                ✅
-              </button>
             </div>
           </div>
 
@@ -1458,8 +1612,9 @@ const CharacterCreator: React.FC = () => {
                               flex items-center justify-center overflow-hidden
                               transition-all duration-200 transform hover:scale-105
                               ${
-                                state.character[partKey as AvailableParts] ===
-                                option.id
+                                state.character.parts[
+                                  partKey as AvailableParts
+                                ] === option.id
                                   ? 'border-blue-500 bg-blue-100 scale-105 sm:scale-110'
                                   : 'border-gray-300 bg-white hover:border-gray-400'
                               }
