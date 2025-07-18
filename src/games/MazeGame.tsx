@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Stage, Layer, Rect, Circle, Group } from 'react-konva';
+import { Stage, Layer, Rect } from 'react-konva';
 import { useGame } from '../App';
 import { MazeLevel, MazeCell } from '../types';
 import BackButton from '../components/BackButton';

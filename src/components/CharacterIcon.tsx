@@ -1,5 +1,5 @@
 import React from 'react';
-import { Group, Circle, Rect, Image } from 'react-konva';
+import { Group, Circle, Rect } from 'react-konva';
 import { Character } from '../types';
 
 interface CharacterIconProps {
