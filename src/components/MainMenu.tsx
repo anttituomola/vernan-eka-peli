@@ -25,16 +25,14 @@ const MainMenu: React.FC = () => {
       icon: '🎨',
       label: 'Väritä kuvia',
       variant: 'accent' as const,
-      disabled: true,
-      comingSoon: true,
+      disabled: false,
     },
     {
       id: 'detective',
       icon: '🔍',
       label: 'Etsi esineitä',
       variant: 'warning' as const,
-      disabled: true,
-      comingSoon: true,
+      disabled: false,
     },
   ];
 
@@ -75,11 +73,7 @@ const MainMenu: React.FC = () => {
                   : 'animate-pulse-slow hover:animate-bounce'
               }`}
             />
-            {game.comingSoon && (
-              <div className='absolute top-1 right-1 sm:top-2 sm:right-2 bg-orange-500 text-white text-xs font-bold px-1 py-0.5 sm:px-2 sm:py-1 rounded-full transform rotate-12 shadow-lg'>
-                Tulossa pian
-              </div>
-            )}
+
           </div>
         ))}
       </div>
