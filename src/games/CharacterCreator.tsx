@@ -10,7 +10,7 @@ const CharacterCreator: React.FC = () => {
 
   const partOptions: Record<keyof CharacterParts, { name: string; options: { id: string; icon: string; color: string }[] }> = {
     head: {
-      name: 'Head',
+      name: 'Pää',
       options: [
         { id: 'round', icon: '⭕', color: '#FFE4B5' },
         { id: 'square', icon: '⬜', color: '#DEB887' },
@@ -18,7 +18,7 @@ const CharacterCreator: React.FC = () => {
       ]
     },
     eyes: {
-      name: 'Eyes',
+      name: 'Silmät',
       options: [
         { id: 'normal', icon: '👀', color: '#87CEEB' },
         { id: 'wink', icon: '😉', color: '#90EE90' },
@@ -26,7 +26,7 @@ const CharacterCreator: React.FC = () => {
       ]
     },
     ears: {
-      name: 'Ears',
+      name: 'Korvat',
       options: [
         { id: 'small', icon: '👂', color: '#FFE4B5' },
         { id: 'big', icon: '🐘', color: '#DEB887' },
@@ -34,7 +34,7 @@ const CharacterCreator: React.FC = () => {
       ]
     },
     torso: {
-      name: 'Body',
+      name: 'Vartalo',
       options: [
         { id: 'shirt', icon: '👕', color: '#FF6B6B' },
         { id: 'dress', icon: '👗', color: '#FF9EC7' },
@@ -42,7 +42,7 @@ const CharacterCreator: React.FC = () => {
       ]
     },
     arms: {
-      name: 'Arms',
+      name: 'Kädet',
       options: [
         { id: 'normal', icon: '💪', color: '#FFE4B5' },
         { id: 'strong', icon: '🦾', color: '#DEB887' },
@@ -50,7 +50,7 @@ const CharacterCreator: React.FC = () => {
       ]
     },
     legs: {
-      name: 'Legs',
+      name: 'Jalat',
       options: [
         { id: 'pants', icon: '👖', color: '#4169E1' },
         { id: 'skirt', icon: '🩱', color: '#FF69B4' },
@@ -58,7 +58,7 @@ const CharacterCreator: React.FC = () => {
       ]
     },
     feet: {
-      name: 'Feet',
+      name: 'Kengät',
       options: [
         { id: 'shoes', icon: '👟', color: '#8B4513' },
         { id: 'boots', icon: '🥾', color: '#654321' },
@@ -192,14 +192,14 @@ const CharacterCreator: React.FC = () => {
       <div className="flex flex-col items-center h-full">
         {/* Title */}
         <h1 className="text-4xl font-kid font-bold text-white mb-6 drop-shadow-lg">
-          👤 Make Your Character! 👤
+          👤 Tee oma hahmosi! 👤
         </h1>
 
         <div className="flex gap-8 w-full max-w-6xl">
           {/* Character Preview */}
           <div className="flex-shrink-0">
             <h2 className="text-2xl font-kid font-bold text-white mb-4 text-center">
-              Your Character:
+              Hahmosi:
             </h2>
             {renderCharacterPreview()}
           </div>
@@ -207,7 +207,7 @@ const CharacterCreator: React.FC = () => {
           {/* Part Selection */}
           <div className="flex-1 bg-white/90 rounded-kid-lg p-6 max-h-96 overflow-y-auto">
             <h2 className="text-2xl font-kid font-bold text-gray-800 mb-4 text-center">
-              Pick Parts:
+              Valitse osat:
             </h2>
             
             <div className="grid grid-cols-1 gap-4">

@@ -1,5 +1,5 @@
 // Game State Types
-export type GameScreen = 'menu' | 'character-creator' | 'maze' | 'coloring' | 'detective';
+export type GameScreen = 'menu' | 'character-creator' | 'maze' | 'coloring' | 'detective' | 'counting' | 'math';
 
 export interface CharacterParts {
   head: string;
@@ -27,6 +27,14 @@ export interface GameState {
     currentLevel: number;
     completedLevels: number[];
   };
+  countingProgress: {
+    currentLevel: number;
+    completedLevels: number[];
+  };
+  mathProgress: {
+    currentLevel: number;
+    completedLevels: number[];
+  };
 }
 
 export type GameAction = 
@@ -35,6 +43,8 @@ export type GameAction =
   | { type: 'COMPLETE_MAZE_LEVEL'; level: number }
   | { type: 'UPDATE_COLORING'; sceneId: string; areaId: string; color: string }
   | { type: 'COMPLETE_DETECTIVE_LEVEL'; level: number }
+  | { type: 'COMPLETE_COUNTING_LEVEL'; level: number }
+  | { type: 'COMPLETE_MATH_LEVEL'; level: number }
   | { type: 'LOAD_SAVED_STATE'; state: Partial<GameState> };
 
 // Component Props
@@ -90,4 +100,25 @@ export interface DetectiveLevel {
   backgroundImage: string;
   hiddenItem: DetectiveItem;
   decoyItems: DetectiveItem[];
+}
+
+// Counting Game Types
+export interface CountingLevel {
+  id: number;
+  objectEmoji: string;
+  objectName: string;
+  count: number;
+  minCount: number;
+  maxCount: number;
+}
+
+// Math Game Types
+export interface MathLevel {
+  id: number;
+  type: 'addition' | 'subtraction';
+  operand1: number;
+  operand2: number;
+  answer: number;
+  minAnswer: number;
+  maxAnswer: number;
 }

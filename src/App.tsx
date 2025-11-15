@@ -6,6 +6,8 @@ import CharacterCreator from './games/CharacterCreator';
 import MazeGame from './games/MazeGame';
 import ColoringBook from './games/ColoringBook';
 import DetectiveGame from './games/DetectiveGame';
+import CountingGame from './games/CountingGame';
+import MathGame from './games/MathGame';
 
 // Create Game Context
 interface GameContextType {
@@ -38,6 +40,10 @@ function App() {
         return <ColoringBook />;
       case 'detective':
         return <DetectiveGame />;
+      case 'counting':
+        return <CountingGame />;
+      case 'math':
+        return <MathGame />;
       default:
         return <MainMenu />;
     }

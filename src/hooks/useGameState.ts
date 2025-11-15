@@ -22,6 +22,14 @@ const initialState: GameState = {
   detectiveProgress: {
     currentLevel: 1,
     completedLevels: []
+  },
+  countingProgress: {
+    currentLevel: 1,
+    completedLevels: []
+  },
+  mathProgress: {
+    currentLevel: 1,
+    completedLevels: []
   }
 };
 
@@ -66,6 +74,24 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         detectiveProgress: {
           currentLevel: Math.max(state.detectiveProgress.currentLevel, action.level + 1),
           completedLevels: [...new Set([...state.detectiveProgress.completedLevels, action.level])]
+        }
+      };
+    
+    case 'COMPLETE_COUNTING_LEVEL':
+      return {
+        ...state,
+        countingProgress: {
+          currentLevel: Math.max(state.countingProgress.currentLevel, action.level + 1),
+          completedLevels: [...new Set([...state.countingProgress.completedLevels, action.level])]
+        }
+      };
+    
+    case 'COMPLETE_MATH_LEVEL':
+      return {
+        ...state,
+        mathProgress: {
+          currentLevel: Math.max(state.mathProgress.currentLevel, action.level + 1),
+          completedLevels: [...new Set([...state.mathProgress.completedLevels, action.level])]
         }
       };
     

@@ -235,11 +235,11 @@ const MazeGame: React.FC = () => {
       <div className="flex flex-col items-center h-full">
         {/* Title */}
         <h1 className="text-4xl font-kid font-bold text-white mb-4 drop-shadow-lg">
-          🌀 Maze Adventure! 🌀
+          🌀 Labyrinttiseikkailu! 🌀
         </h1>
 
         <div className="text-2xl font-kid font-bold text-white mb-4">
-          Level {currentLevel}
+          Taso {currentLevel}
         </div>
 
         {/* Game Won Message */}
@@ -247,7 +247,7 @@ const MazeGame: React.FC = () => {
           <div className="bg-green-400 rounded-kid-lg p-6 mb-4 text-center animate-bounce">
             <div className="text-4xl mb-2">🎉</div>
             <div className="text-2xl font-kid font-bold text-white">
-              Great Job! You found the gold! ⭐
+              Hienoa työtä! Löysit kullan! ⭐
             </div>
           </div>
         )}
@@ -263,7 +263,7 @@ const MazeGame: React.FC = () => {
             {/* Arrow Controls */}
             <div className="bg-white/90 rounded-kid-lg p-6">
               <h3 className="text-xl font-kid font-bold text-gray-800 mb-4 text-center">
-                Move Around:
+                Liiku:
               </h3>
               <div className="grid grid-cols-3 gap-2 w-48">
                 <div></div>
@@ -304,7 +304,7 @@ const MazeGame: React.FC = () => {
                 <GameButton
                   onClick={resetLevel}
                   icon="🔄"
-                  label="Try Again"
+                  label="Yritä uudelleen"
                   variant="warning"
                   size="md"
                 />
@@ -312,7 +312,7 @@ const MazeGame: React.FC = () => {
                   <GameButton
                     onClick={nextLevel}
                     icon="➡️"
-                    label="Next Level"
+                    label="Seuraava taso"
                     variant="accent"
                     size="md"
                   />
@@ -323,13 +323,13 @@ const MazeGame: React.FC = () => {
             {/* Instructions */}
             <div className="bg-white/90 rounded-kid-lg p-4 max-w-48">
               <h3 className="text-lg font-kid font-bold text-gray-800 mb-2 text-center">
-                How to Play:
+                Miten pelataan:
               </h3>
               <div className="text-sm text-gray-700 space-y-2">
-                <div>🔴 You are the red circle</div>
-                <div>⭐ Get to the yellow star</div>
-                <div>🚫 Don't hit brown walls</div>
-                <div>⌨️ Use arrow keys or buttons</div>
+                <div>🔴 Sinä olet punainen ympyrä</div>
+                <div>⭐ Pää keltaiseen tähteen</div>
+                <div>🚫 Älä osu ruskeisiin seiniin</div>
+                <div>⌨️ Käytä nuolinäppäimiä tai nappeja</div>
               </div>
             </div>
           </div>

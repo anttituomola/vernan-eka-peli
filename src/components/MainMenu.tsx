@@ -9,26 +9,26 @@ const MainMenu: React.FC = () => {
     {
       id: 'character-creator',
       icon: '👤',
-      label: 'Make Character',
+      label: 'Tee hahmo',
       variant: 'primary' as const
     },
     {
       id: 'maze',
       icon: '🌀',
-      label: 'Maze Game',
+      label: 'Labyrinttipeli',
       variant: 'secondary' as const
     },
     {
-      id: 'coloring',
-      icon: '🎨',
-      label: 'Color Pictures',
+      id: 'counting',
+      icon: '🔢',
+      label: 'Laske numerot',
       variant: 'accent' as const
     },
     {
-      id: 'detective',
-      icon: '🔍',
-      label: 'Find Things',
-      variant: 'warning' as const
+      id: 'math',
+      icon: '➕',
+      label: 'Laske laskut',
+      variant: 'primary' as const
     }
   ];
 
@@ -44,10 +44,10 @@ const MainMenu: React.FC = () => {
       {/* Title */}
       <div className="text-center mb-12">
         <h1 className="text-6xl font-kid font-bold text-white mb-4 drop-shadow-lg">
-          🎮 Fun Games! 🎮
+          🎮 Hauskat pelit! 🎮
         </h1>
         <p className="text-2xl font-kid text-white drop-shadow-md">
-          Pick a game to play!
+          Valitse peli!
         </p>
       </div>
 
