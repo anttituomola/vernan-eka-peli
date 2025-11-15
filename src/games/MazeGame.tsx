@@ -389,6 +389,14 @@ const MazeGame: React.FC = () => {
     }
   };
 
+  const resetLevel = () => {
+    const maze = mazeLevels[currentLevel - 1];
+    if (maze) {
+      setPlayerPosition(maze.playerStart);
+      setGameWon(false);
+    }
+  };
+
   // Keyboard controls
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
