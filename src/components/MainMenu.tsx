@@ -54,7 +54,7 @@ const MainMenu: React.FC = () => {
       {/* Title */}
       <div className="text-center mb-12">
         <h1 className="text-6xl font-kid font-bold text-white mb-4 drop-shadow-lg">
-          🎮 Hauskat pelit! 🎮
+          🎮 Vernan omat pelit! 🎮
         </h1>
         <p className="text-2xl font-kid text-white drop-shadow-md">
           Valitse peli!
