@@ -1296,7 +1296,7 @@ const CharacterCreator: React.FC = () => {
       ],
     },
     ears: {
-      name: 'Antennit',
+      name: 'Korvat',
       options: [
         { id: 'straight', name: 'Suora' },
         { id: 'coiled', name: 'Kierretty' },
@@ -1312,7 +1312,7 @@ const CharacterCreator: React.FC = () => {
       ],
     },
     arms: {
-      name: 'Käsivarret',
+      name: 'Kädet',
       options: [
         { id: 'basic', name: 'Perus' },
         { id: 'mechanical', name: 'Mekaaninen' },
@@ -1328,7 +1328,7 @@ const CharacterCreator: React.FC = () => {
       ],
     },
     feet: {
-      name: 'Jalat',
+      name: 'Kengät',
       options: [
         { id: 'boots', name: 'Saappaat' },
         { id: 'magnetic', name: 'Magneettiset' },
@@ -1518,19 +1518,18 @@ const CharacterCreator: React.FC = () => {
   return (
     <div className='w-full min-h-screen p-2 sm:p-4'>
       <BackButton />
-
-      <div className='flex flex-col items-center min-h-full'>
-        {/* Title - Hidden on mobile to save space */}
-        <h1 className='hidden sm:block text-2xl lg:text-4xl font-kid font-bold text-white mb-4 lg:mb-6 drop-shadow-lg text-center'>
-          🤖 Rakenna robotti! 🤖
+      
+      <div className="flex flex-col items-center h-full">
+        {/* Title */}
+        <h1 className="text-4xl font-kid font-bold text-white mb-6 drop-shadow-lg">
+          👤 Tee oma hahmosi! 👤
         </h1>
 
-        <div className='flex flex-col lg:flex-row gap-2 sm:gap-4 lg:gap-8 w-full max-w-7xl items-center lg:items-start justify-center'>
-          {/* Robot Preview - Made sticky */}
-          <div className='w-full lg:w-auto lg:flex-shrink-0 order-1 lg:order-1 sticky top-0 lg:static bg-gradient-to-br from-kidBlue via-kidGreen to-kidYellow lg:bg-none z-10 lg:z-auto pb-1 lg:pb-0'>
-            {/* Robot preview title - Hidden on mobile */}
-            <h2 className='hidden sm:block text-lg lg:text-2xl font-kid font-bold text-white mb-2 lg:mb-4 text-center'>
-              Sinun robottisi:
+        <div className="flex gap-8 w-full max-w-6xl">
+          {/* Character Preview */}
+          <div className="flex-shrink-0">
+            <h2 className="text-2xl font-kid font-bold text-white mb-4 text-center">
+              Hahmosi:
             </h2>
 
             {/* Robot container */}
@@ -1539,10 +1538,10 @@ const CharacterCreator: React.FC = () => {
             </div>
           </div>
 
-          {/* Part Selection - Centered */}
-          <div className='w-full max-w-md lg:max-w-none lg:flex-1 bg-white/90 rounded-kid-lg p-2 sm:p-3 lg:p-6 max-h-[55vh] sm:max-h-[70vh] lg:max-h-[600px] overflow-y-auto order-2 lg:order-2'>
-            <h2 className='text-base sm:text-lg lg:text-2xl font-kid font-bold text-gray-800 mb-2 sm:mb-3 lg:mb-4 text-center'>
-              🎨 Robotin värit ja osat 🎨
+          {/* Part Selection */}
+          <div className="flex-1 bg-white/90 rounded-kid-lg p-6 max-h-96 overflow-y-auto">
+            <h2 className="text-2xl font-kid font-bold text-gray-800 mb-4 text-center">
+              Valitse osat:
             </h2>
 
             <div className='grid grid-cols-1 gap-2 sm:gap-3 lg:gap-4'>

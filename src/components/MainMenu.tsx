@@ -9,13 +9,19 @@ const MainMenu: React.FC = () => {
     {
       id: 'character-creator',
       icon: '👤',
+<<<<<<< HEAD
       label: 'Luo hahmo',
       variant: 'primary' as const,
       disabled: false,
+=======
+      label: 'Tee hahmo',
+      variant: 'primary' as const
+>>>>>>> cursor/create-kid-friendly-mini-game-web-app-66dd
     },
     {
       id: 'maze',
       icon: '🌀',
+<<<<<<< HEAD
       label: 'Labyrintti-peli',
       variant: 'secondary' as const,
       disabled: false,
@@ -36,6 +42,23 @@ const MainMenu: React.FC = () => {
       disabled: true,
       comingSoon: true,
     },
+=======
+      label: 'Labyrinttipeli',
+      variant: 'secondary' as const
+    },
+    {
+      id: 'counting',
+      icon: '🔢',
+      label: 'Laske numerot',
+      variant: 'accent' as const
+    },
+    {
+      id: 'math',
+      icon: '➕',
+      label: 'Laske laskut',
+      variant: 'primary' as const
+    }
+>>>>>>> cursor/create-kid-friendly-mini-game-web-app-66dd
   ];
 
   const handleGameSelect = (gameId: string, disabled: boolean) => {
@@ -48,6 +71,7 @@ const MainMenu: React.FC = () => {
   };
 
   return (
+<<<<<<< HEAD
     <div className='flex flex-col items-center justify-between w-full h-screen p-3 sm:p-8'>
       {/* Title - More compact on mobile */}
       <div className='text-center mb-4 sm:mb-8 lg:mb-12 flex-shrink-0'>
@@ -55,6 +79,15 @@ const MainMenu: React.FC = () => {
           Vernan eka peli
         </h1>
         <p className='text-base sm:text-lg lg:text-2xl font-kid text-white drop-shadow-md'>
+=======
+    <div className="flex flex-col items-center justify-center w-full h-full p-8">
+      {/* Title */}
+      <div className="text-center mb-12">
+        <h1 className="text-6xl font-kid font-bold text-white mb-4 drop-shadow-lg">
+          🎮 Hauskat pelit! 🎮
+        </h1>
+        <p className="text-2xl font-kid text-white drop-shadow-md">
+>>>>>>> cursor/create-kid-friendly-mini-game-web-app-66dd
           Valitse peli!
         </p>
       </div>

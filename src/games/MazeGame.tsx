@@ -492,20 +492,25 @@ const MazeGame: React.FC = () => {
 
       <div className='flex flex-col items-center flex-1 pt-12 sm:pt-4 pb-4 overflow-y-auto'>
         {/* Title */}
-        <h1 className='text-xl sm:text-3xl lg:text-4xl font-kid font-bold text-white mb-1 sm:mb-4 drop-shadow-lg text-center px-2'>
+        <h1 className="text-4xl font-kid font-bold text-white mb-4 drop-shadow-lg">
           🌀 Labyrinttiseikkailu! 🌀
         </h1>
 
-        <div className='text-sm sm:text-xl lg:text-2xl font-kid font-bold text-white mb-1 sm:mb-4'>
-          Taso {currentLevel}/16
-          {currentLevel <= 8 && <span className='text-green-300'>⭐</span>}
-          {currentLevel > 8 && currentLevel <= 12 && (
-            <span className='text-yellow-300'>⭐⭐</span>
-          )}
-          {currentLevel > 12 && <span className='text-red-300'>⭐⭐⭐</span>}
+        <div className="text-2xl font-kid font-bold text-white mb-4">
+          Taso {currentLevel}
         </div>
 
-        <div className='flex flex-col lg:flex-row gap-2 lg:gap-8 items-center lg:items-start w-full max-w-7xl justify-center'>
+        {/* Game Won Message */}
+        {gameWon && (
+          <div className="bg-green-400 rounded-kid-lg p-6 mb-4 text-center animate-bounce">
+            <div className="text-4xl mb-2">🎉</div>
+            <div className="text-2xl font-kid font-bold text-white">
+              Hienoa työtä! Löysit kullan! ⭐
+            </div>
+          </div>
+        )}
+
+        <div className="flex gap-8 items-start">
           {/* Maze */}
           <div className='bg-white rounded-kid-lg p-1 sm:p-4 border-2 sm:border-4 border-gray-300 order-1 lg:order-1 flex-shrink-0 max-w-full relative'>
             <div className='overflow-auto max-h-[60vh] lg:max-h-none'>
@@ -545,8 +550,8 @@ const MazeGame: React.FC = () => {
           {/* Controls */}
           <div className='flex justify-center order-2 lg:order-2'>
             {/* Arrow Controls */}
-            <div className='bg-white/90 rounded-kid-lg p-2 sm:p-4'>
-              <h3 className='text-sm sm:text-lg font-kid font-bold text-gray-800 mb-2 sm:mb-3 text-center'>
+            <div className="bg-white/90 rounded-kid-lg p-6">
+              <h3 className="text-xl font-kid font-bold text-gray-800 mb-4 text-center">
                 Liiku:
               </h3>
               <div className='grid grid-cols-3 gap-1 w-40 sm:w-52 mx-auto'>
@@ -583,6 +588,41 @@ const MazeGame: React.FC = () => {
                   ⬇️
                 </button>
                 <div></div>
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="bg-white/90 rounded-kid-lg p-6">
+              <div className="flex flex-col gap-4">
+                <GameButton
+                  onClick={resetLevel}
+                  icon="🔄"
+                  label="Yritä uudelleen"
+                  variant="warning"
+                  size="md"
+                />
+                {gameWon && (
+                  <GameButton
+                    onClick={nextLevel}
+                    icon="➡️"
+                    label="Seuraava taso"
+                    variant="accent"
+                    size="md"
+                  />
+                )}
+              </div>
+            </div>
+
+            {/* Instructions */}
+            <div className="bg-white/90 rounded-kid-lg p-4 max-w-48">
+              <h3 className="text-lg font-kid font-bold text-gray-800 mb-2 text-center">
+                Miten pelataan:
+              </h3>
+              <div className="text-sm text-gray-700 space-y-2">
+                <div>🔴 Sinä olet punainen ympyrä</div>
+                <div>⭐ Pää keltaiseen tähteen</div>
+                <div>🚫 Älä osu ruskeisiin seiniin</div>
+                <div>⌨️ Käytä nuolinäppäimiä tai nappeja</div>
               </div>
             </div>
           </div>
