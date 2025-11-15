@@ -5,7 +5,7 @@ import BackButton from '../components/BackButton';
 import GameButton from '../components/GameButton';
 
 const MathGame: React.FC = () => {
-  const { state, dispatch } = useGame();
+  const { dispatch } = useGame();
   const [currentLevel, setCurrentLevel] = useState(1);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
